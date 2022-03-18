@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import Entry from './components/Entry';
 import EntryForm from './components/EntryForm';
 import useSWR from 'swr';
+import { useState } from 'react';
+import NameForm from './components/NameForm';
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export default function App() {
+  const [user, setUser] = useState('');
+  const [active, setActive] = useState(false);
   // const [entries, setEntries] = useState([]);
 
   // useEffect(() => {
@@ -31,24 +35,32 @@ export default function App() {
     <>
       <Grid>
         <h1>Lean Coffee Board</h1>
-        <EntryList role="list">
-          {entries
-            ? entries.map(({ text, author, _id }) => (
-                <li key={_id}>
-                  <Entry text={text} author={author} />
-                </li>
-              ))
-            : '...loading....'}
-        </EntryList>
-        <EntryForm onSubmit={handleNewEntry} />
+        {!active && <NameForm onSubmit={handleNewUser} />}
+        {active && (
+          <EntryList role="list">
+            {entries
+              ? entries.map(({ text, author, _id }) => (
+                  <li key={_id}>
+                    <Entry text={text} author={author} />
+                  </li>
+                ))
+              : '...loading....'}
+          </EntryList>
+        )}
+        {active && <EntryForm onSubmit={handleNewEntry} />}
       </Grid>
     </>
   );
 
+  function handleNewUser(name) {
+    setUser(name);
+    setActive(!active);
+  }
+
   async function handleNewEntry(text) {
     const newEntry = {
       text,
-      author: 'Anonymous',
+      author: user,
     };
     mutateEntries([...entries, newEntry], false);
 
