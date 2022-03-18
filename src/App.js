@@ -29,17 +29,19 @@ export default function App() {
 
   return (
     <>
-      <h1>Lean Coffee Board</h1>
-      <EntryList role="list">
-        {entries
-          ? entries.map(({ text, author, _id }) => (
-              <li key={_id}>
-                <Entry text={text} author={author} />
-              </li>
-            ))
-          : '...loading....'}
-      </EntryList>
-      <EntryForm onSubmit={handleNewEntry} />
+      <Grid>
+        <h1>Lean Coffee Board</h1>
+        <EntryList role="list">
+          {entries
+            ? entries.map(({ text, author, _id }) => (
+                <li key={_id}>
+                  <Entry text={text} author={author} />
+                </li>
+              ))
+            : '...loading....'}
+        </EntryList>
+        <EntryForm onSubmit={handleNewEntry} />
+      </Grid>
     </>
   );
 
@@ -64,7 +66,15 @@ export default function App() {
 
 const EntryList = styled.ul`
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 100px;
   gap: 20px;
   list-style: none;
   padding: 0;
+`;
+
+const Grid = styled.div`
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 `;
