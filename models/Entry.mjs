@@ -4,6 +4,7 @@ const schema = new mongoose.Schema(
   {
     text: mongoose.SchemaTypes.String,
     author: mongoose.SchemaTypes.String,
+    color: mongoose.SchemaTypes.String,
   },
   {
     versionKey: false,

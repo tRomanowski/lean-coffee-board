@@ -10,6 +10,7 @@ const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export default function App() {
   const [user, setUser] = useState('');
+  const [userColor, setUserColor] = useState('');
   const [active, setActive] = useState(false);
   // const [entries, setEntries] = useState([]);
 
@@ -39,9 +40,9 @@ export default function App() {
         {active && (
           <EntryList role="list">
             {entries
-              ? entries.map(({ text, author, _id }) => (
+              ? entries.map(({ text, author, _id, color }) => (
                   <li key={_id}>
-                    <Entry text={text} author={author} />
+                    <Entry text={text} author={author} color={color} />
                   </li>
                 ))
               : '...loading....'}
@@ -52,8 +53,9 @@ export default function App() {
     </>
   );
 
-  function handleNewUser(name) {
+  function handleNewUser(name, color) {
     setUser(name);
+    setUserColor(color);
     setActive(!active);
   }
 
@@ -61,6 +63,7 @@ export default function App() {
     const newEntry = {
       text,
       author: user,
+      color: userColor,
     };
     mutateEntries([...entries, newEntry], false);
 

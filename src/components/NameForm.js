@@ -16,11 +16,10 @@ export default function NameForm({ onSubmit }) {
   function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
-    console.log(form);
-    const inputElement = form.elements.name;
-    console.log(inputElement);
-    onSubmit(inputElement.value);
-    form.reset();
+    const inputElementName = form.elements.name;
+    const inputElementColor = form.elements.color;
+    console.log(inputElementColor.value);
+    onSubmit(inputElementName.value, inputElementColor.value);
   }
 }
 
